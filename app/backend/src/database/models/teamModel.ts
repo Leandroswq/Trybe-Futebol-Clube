@@ -1,11 +1,22 @@
 import { Model, DataTypes } from 'sequelize';
 import db from './connection/tfc';
+import { TModelsObject } from './types/TModel';
 
 class TeamModel extends Model {
   id!: number;
   teamName!: string;
 
-  static associate(_model: object) { }
+  static associate(models: TModelsObject) {
+    TeamModel.hasMany(models.matchModel, {
+      foreignKey: 'homeTeam',
+      as: 'teamsHome',
+    });
+
+    TeamModel.hasMany(models.matchModel, {
+      foreignKey: 'awayTeam',
+      as: 'teamAway',
+    });
+  }
 }
 
 TeamModel.init({

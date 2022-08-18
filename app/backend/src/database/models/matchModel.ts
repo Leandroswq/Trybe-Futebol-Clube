@@ -1,5 +1,6 @@
-import { Model, DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import db from './connection/tfc';
+import { TModelsObject } from './types/TModel';
 
 class MatchModel extends Model {
   id!: number;
@@ -9,7 +10,17 @@ class MatchModel extends Model {
   awayTeamGoals!: number;
   inProgress!: boolean;
 
-  static associate(_model: object) { }
+  static associate(models: TModelsObject) {
+    MatchModel.belongsTo(models.teamModel, {
+      foreignKey: 'homeTeam',
+      as: 'teamHome',
+    });
+
+    MatchModel.belongsTo(models.teamModel, {
+      foreignKey: 'awayTeam',
+      as: 'teamAway',
+    });
+  }
 }
 
 MatchModel.init({
