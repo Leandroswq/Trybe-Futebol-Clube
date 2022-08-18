@@ -27,7 +27,7 @@ TeamModel.init({
     autoIncrement: true,
   },
   teamName: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING,
     allowNull: false,
   },
 }, {
