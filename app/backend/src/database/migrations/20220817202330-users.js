@@ -12,20 +12,20 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      userName: {
-        type: Sequelize.STRING,
+      username: {
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       role: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       password: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         allowNull: false
       },
     });
