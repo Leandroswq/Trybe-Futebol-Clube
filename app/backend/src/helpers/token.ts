@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import * as jwt from 'jsonwebtoken';
-import { TTokenPayload } from './types/TTokenPayload';
+import { TTokenPayload } from './types/tokenPayload';
 
 export default class Token {
   private static secrete = process.env.JWT_SECRET as string;
