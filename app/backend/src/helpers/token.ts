@@ -1,11 +1,11 @@
 import 'dotenv/config';
 import * as jwt from 'jsonwebtoken';
-import { ITokenPayload } from './interface/ITokenPayload';
+import { TTokenPayload } from './types/TTokenPayload';
 
 export default class Token {
   private static secrete = process.env.JWT_SECRET as string;
 
-  static generate(payload: ITokenPayload) {
+  static generate(payload: TTokenPayload) {
     const token = jwt.sign(payload, this.secrete, {
       expiresIn: '7d',
     });
@@ -16,6 +16,6 @@ export default class Token {
   static validate(token: string) {
     const result = jwt.verify(token, this.secrete);
 
-    return result as ITokenPayload;
+    return result as TTokenPayload;
   }
 }
