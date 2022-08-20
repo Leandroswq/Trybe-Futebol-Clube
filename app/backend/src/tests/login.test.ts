@@ -54,49 +54,55 @@ describe('Testa na rota /login o método', () => {
   })
 
   describe('post, em caso de falha', () => {
-    it('Retorna o status 400 com a mensagem "All fields must be filled", caso o email não seja preenchido', async () => {
-      const message = 'All fields must be filled'
-      let login = deepCopy(loginMocks.admin)
-      login.email = ''
+    describe('retorna o status 400 com a mensagem "All fields must be filled",', () => {
+      it(' caso o email não seja preenchido', async () => {
+        const message = 'All fields must be filled'
+        let login = deepCopy(loginMocks.admin)
+        login.email = ''
 
-      let response = await request()
-        .post('/login')
-        .send(login)
-      expect(response.status).to.equal(400)
-      expect(response.body).to.have.property('message')
-      expect(response.body.message).to.be.equal(message)
+        let response = await request()
+          .post('/login')
+          .send(login)
+        expect(response.status).to.equal(400)
+        expect(response.body).to.have.property('message')
+        expect(response.body.message).to.be.equal(message)
 
-      delete login.email
+        delete login.email
 
-      response = await request()
-        .post('/login')
-        .send(login)
-      expect(response.status).to.equal(400)
-      expect(response.body).to.have.property('message')
-      expect(response.body.message).to.be.equal(message)
+        response = await request()
+          .post('/login')
+          .send(login)
+        expect(response.status).to.equal(400)
+        expect(response.body).to.have.property('message')
+        expect(response.body.message).to.be.equal(message)
 
+      })
+
+      it(' caso o password não seja preenchido', async () => {
+        const message = 'All fields must be filled'
+        let login = deepCopy(loginMocks.admin)
+        login.password = ''
+
+        let response = await request()
+          .post('/login')
+          .send(login)
+        expect(response.status).to.equal(400)
+        expect(response.body).to.have.property('message')
+        expect(response.body.message).to.be.equal(message)
+
+        delete login.password
+
+        response = await request()
+          .post('/login')
+          .send(login)
+        expect(response.status).to.equal(400)
+        expect(response.body).to.have.property('message')
+        expect(response.body.message).to.be.equal(message)
+
+      })
     })
 
-    it('Retorna o status 400 com a mensagem "All fields must be filled", caso o password não seja preenchido', async () => {
-      const message = 'All fields must be filled'
-      let login = deepCopy(loginMocks.admin)
-      login.password = ''
-
-      let response = await request()
-        .post('/login')
-        .send(login)
-      expect(response.status).to.equal(400)
-      expect(response.body).to.have.property('message')
-      expect(response.body.message).to.be.equal(message)
-
-      delete login.password
-
-      response = await request()
-        .post('/login')
-        .send(login)
-      expect(response.status).to.equal(400)
-      expect(response.body).to.have.property('message')
-      expect(response.body.message).to.be.equal(message)
+    describe('retorna o status 401', () => {
 
     })
   })
