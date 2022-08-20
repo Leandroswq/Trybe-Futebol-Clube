@@ -54,22 +54,51 @@ describe('Testa na rota /login o método', () => {
   })
 
   describe('post, em caso de falha', () => {
-    it('Retorna o status 400 com a mensagem "All fields must be filled", caso algum campo não seja preenchido', async () => {
+    it('Retorna o status 400 com a mensagem "All fields must be filled", caso o email não seja preenchido', async () => {
       const message = 'All fields must be filled'
-      Object.keys(loginMocks.admin).forEach(async (key) => {
-        const login = deepCopy(loginMocks.admin)
-        delete login[key]
+      let login = deepCopy(loginMocks.admin)
+      login.email = ''
 
-        const response = await request()
-          .post('/login')
-          .send(login)
+      let response = await request()
+        .post('/login')
+        .send(login)
+      expect(response.status).to.equal(400)
+      expect(response.body).to.have.property('message')
+      expect(response.body.message).to.be.equal(message)
 
-        expect(response.status).to.equal(200)
-        expect(response.body).to.have.property('message')
-        expect(response.body.message).to.be.equal(message)
-      })
+      delete login.email
+
+      response = await request()
+        .post('/login')
+        .send(login)
+      expect(response.status).to.equal(400)
+      expect(response.body).to.have.property('message')
+      expect(response.body.message).to.be.equal(message)
+
+    })
+
+    it('Retorna o status 400 com a mensagem "All fields must be filled", caso o password não seja preenchido', async () => {
+      const message = 'All fields must be filled'
+      let login = deepCopy(loginMocks.admin)
+      login.password = ''
+
+      let response = await request()
+        .post('/login')
+        .send(login)
+      expect(response.status).to.equal(400)
+      expect(response.body).to.have.property('message')
+      expect(response.body.message).to.be.equal(message)
+
+      delete login.password
+
+      response = await request()
+        .post('/login')
+        .send(login)
+      expect(response.status).to.equal(400)
+      expect(response.body).to.have.property('message')
+      expect(response.body.message).to.be.equal(message)
 
     })
   })
+})
 
-});
