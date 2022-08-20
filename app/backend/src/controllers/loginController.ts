@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import LoginService from '../services/loginService';
 import Token from '../helpers/token';
 import 'express-async-errors';
+import ICustomRequest from '../services/types/customRequest';
+import userService from '../services/userService';
 
 export default class LoginController {
   static async login(req: Request, res: Response) {
@@ -16,5 +18,13 @@ export default class LoginController {
     });
 
     res.status(200).json({ token });
+  }
+
+  static async validate(req: Request, res: Response) {
+    const customRequest = req as ICustomRequest;
+    const { id } = customRequest.user;
+    const { role } = await userService.getById(id);
+
+    res.status(200).json({ role });
   }
 }

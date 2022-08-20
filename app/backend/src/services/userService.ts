@@ -11,4 +11,12 @@ export default class userService {
     });
     return response as IUser;
   }
+
+  static async getById(id: number) {
+    const response = await UserModel.findByPk(id, {
+      raw: true,
+    });
+
+    return response as IUser;
+  }
 }
