@@ -21,16 +21,16 @@ import deepCopy from './helpers/deepCopy'
 chai.use(chaiHttp);
 
 const { expect } = chai;
+const request = () => chai.request(app)
 
-describe('Testa na rota /login o método', () => {
-  const request = () => chai.request(app)
+describe('Testa se a rota /login o método', () => {
   afterEach(() => {
     sinon.restore()
   })
 
   beforeEach(() => {
     sinon.stub(UserModel, 'findOne')
-    .resolves(userMocks.user as UserModel)
+      .resolves(userMocks.user as UserModel)
   })
 
   describe('post, em caso de sucesso', () => {
@@ -139,3 +139,31 @@ describe('Testa na rota /login o método', () => {
   })
 })
 
+describe('Testa se a rota /login/validate o método', () => {
+  afterEach(() => {
+    sinon.restore()
+  })
+
+  beforeEach(() => {
+    sinon.stub(UserModel, 'findByPk')
+      .resolves(userMocks.user as UserModel)
+
+    sinon.stub(UserModel, 'findOne')
+      .resolves(userMocks.user as UserModel)
+  })
+  describe('em caso de sucesso', () => {
+    it('retorna o status 200 e o "role" do usuário', async () => {
+      const { body: { token } } = await request()
+        .post('/login')
+        .send(loginMocks.admin)
+      
+        const response = await request()
+        .get('/login/validate')
+        .set({Authorization: token})
+      
+        expect(response.status).to.equal(200)
+        expect(response.body).to.have.property("role")
+        expect(response.body.role).to.equal(userMocks.user.role)
+    })
+  })
+})
