@@ -28,11 +28,14 @@ describe('Testa na rota /login o método', () => {
     sinon.restore()
   })
 
+  beforeEach(() => {
+    sinon.stub(UserModel, 'findOne')
+    .resolves(userMocks.user as UserModel)
+  })
+
   describe('post, em caso de sucesso', () => {
 
     it('retorna o status 200', async () => {
-      sinon.stub(UserModel, 'findOne')
-        .resolves(userMocks.user as UserModel)
 
       const response = await request()
         .post('/login')
@@ -41,8 +44,6 @@ describe('Testa na rota /login o método', () => {
     })
 
     it('retorna um token de validação', async () => {
-      sinon.stub(UserModel, 'findOne')
-        .resolves(userMocks.user as UserModel)
 
       const response = await request()
         .post('/login')
@@ -102,8 +103,38 @@ describe('Testa na rota /login o método', () => {
       })
     })
 
-    describe('retorna o status 401', () => {
+    describe('retorna o status 401 com a mensagem "Incorrect email or password", caso', () => {
+      it("o email seja invalido", async () => {
+        const message = "Incorrect email or password"
 
+        const login = {
+          email: "email invalido",
+          password: "password"
+        }
+
+        const response = await request()
+          .post('/login')
+          .send(login)
+
+        expect(response.status).to.equal(401)
+        expect(response.body).to.have.property('message')
+        expect(response.body.message).to.be.equal(message)
+      })
+    })
+
+    it("o password esteja incorreto", async () => {
+      const message = "Incorrect email or password"
+
+      const login = deepCopy(loginMocks.admin)
+      login.password = 'password incorreto'
+
+      const response = await request()
+        .post('/login')
+        .send(login)
+
+      expect(response.status).to.equal(401)
+      expect(response.body).to.have.property('message')
+      expect(response.body.message).to.be.equal(message)
     })
   })
 })
