@@ -14,7 +14,9 @@ import userMocks from './mocks/userMocks'
 
 // model
 import UserModel from '../database/models/userModel'
-import { Model } from 'sequelize/types';
+
+// helpers
+import deepCopy from './helpers/deepCopy'
 
 chai.use(chaiHttp);
 
@@ -29,8 +31,8 @@ describe('Testa na rota /login o método', () => {
   describe('post, em caso de sucesso', () => {
 
     it('retorna o status 200', async () => {
-    sinon.stub(UserModel, 'findOne')
-    .resolves(userMocks.user as UserModel)
+      sinon.stub(UserModel, 'findOne')
+        .resolves(userMocks.user as UserModel)
 
       const response = await request()
         .post('/login')
@@ -39,8 +41,8 @@ describe('Testa na rota /login o método', () => {
     })
 
     it('retorna um token de validação', async () => {
-    sinon.stub(UserModel, 'findOne')
-    .resolves(userMocks.user as UserModel)
+      sinon.stub(UserModel, 'findOne')
+        .resolves(userMocks.user as UserModel)
 
       const response = await request()
         .post('/login')
@@ -48,6 +50,25 @@ describe('Testa na rota /login o método', () => {
 
       expect(response.body).to.have.property('token')
       expect(response.body.token).to.be.a('string')
+    })
+  })
+
+  describe('post, em caso de falha', () => {
+    it('Retorna o status 400 com a mensagem "All fields must be filled", caso algum campo não seja preenchido', async () => {
+      const message = 'All fields must be filled'
+      Object.keys(loginMocks.admin).forEach(async (key) => {
+        const login = deepCopy(loginMocks.admin)
+        delete login[key]
+
+        const response = await request()
+          .post('/login')
+          .send(login)
+
+        expect(response.status).to.equal(200)
+        expect(response.body).to.have.property('message')
+        expect(response.body.message).to.be.equal(message)
+      })
+
     })
   })
 
