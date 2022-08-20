@@ -1,4 +1,5 @@
 import * as express from 'express';
+import errorMiddleware from './middleware/erroMiddleware';
 import loginRouter from './routers/loginRouter';
 
 class App {
@@ -27,6 +28,10 @@ class App {
     // rotas
 
     this.app.use('/login', loginRouter);
+
+    // middleware de erro
+
+    this.app.use(errorMiddleware);
   }
 
   public start(PORT: string | number):void {
