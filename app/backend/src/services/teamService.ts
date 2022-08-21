@@ -7,4 +7,10 @@ export default class TeamService {
 
     return response as ITeam[];
   }
+
+  static async getById(id: number) {
+    const response = await TeamModel.findByPk(id, { raw: true });
+
+    return response as ITeam;
+  }
 }
