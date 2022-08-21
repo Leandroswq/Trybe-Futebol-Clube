@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import LoginService from '../services/loginService';
 import Token from '../helpers/token';
 import 'express-async-errors';
-import ICustomRequest from '../services/types/customRequest';
+import ICustomRequest from './types/customRequest';
 import userService from '../services/userService';
 
 export default class LoginController {

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import ICustomRequest from '../services/types/customRequest';
+import ICustomRequest from '../controllers/types/customRequest';
 import Token from '../helpers/token';
 
 export default function validateToken(req: Request, res: Response, next: NextFunction) {
