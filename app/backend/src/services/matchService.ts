@@ -68,7 +68,7 @@ export default class MatchService {
   static async create(matchData: matchWithoutIdUnassociatedBase) {
     const response = await MatchModel.create({
       ...matchData,
-      inProgress: true,
+      inProgress: false,
     }, { raw: true });
 
     return response as matchWithIdUnassociated;
