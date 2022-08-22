@@ -19,9 +19,6 @@ export default class Token {
     try {
       result = jwt.verify(token, this.secrete);
     } catch (err) {
-      const { message } = err as Error;
-      console.log(message);
-
       throw new HttpError(401, 'Token must be a valid token');
     }
     return result as TTokenPayload;

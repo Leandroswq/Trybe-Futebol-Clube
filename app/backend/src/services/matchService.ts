@@ -8,8 +8,6 @@ import TeamService from './teamService';
 
 export default class MatchService {
   static validateTeamsAreDifferent(data: matchWithoutIdUnassociatedBase) {
-    console.log('//////', data.awayTeam === data.homeTeam);
-
     if (data.awayTeam === data.homeTeam) {
       throw new HttpError(401, 'It is not possible to create a match with two equal teams');
     }
