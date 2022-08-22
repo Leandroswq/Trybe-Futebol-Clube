@@ -1,7 +1,9 @@
 import * as express from 'express';
 import errorMiddleware from './middleware/erroMiddleware';
 import loginRouter from './routers/loginRouter';
+import matchRouter from './routers/matchRouter';
 import teamRouter from './routers/teamRouter';
+import './database/models/createAssociate';
 
 class App {
   public app: express.Express;
@@ -30,6 +32,7 @@ class App {
 
     this.app.use('/login', loginRouter);
     this.app.use('/teams', teamRouter);
+    this.app.use('/matches', matchRouter);
 
     // middleware de erro
 
