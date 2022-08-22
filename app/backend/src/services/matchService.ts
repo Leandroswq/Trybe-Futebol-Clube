@@ -55,4 +55,20 @@ export default class MatchService {
 
     return response as matchWithIdUnassociated;
   }
+
+  static async finish(id: number) {
+    const response = await MatchModel.update(
+      {
+        inProgress: false,
+      },
+      {
+        where: {
+          id,
+        },
+      },
+    );
+    console.log(response);
+
+    return response;
+  }
 }
