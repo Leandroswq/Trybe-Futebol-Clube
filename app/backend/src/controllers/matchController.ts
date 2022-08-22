@@ -34,4 +34,13 @@ export default class MatchController {
 
     res.status(200).json({ message: 'Finished' });
   }
+
+  static async updateGoals(req: Request, res: Response) {
+    const { id } = req.params;
+    const data = req.body;
+
+    await MatchService.updateGoals(Number(id), data);
+
+    res.status(200).json({ message: 'Updated Goals' });
+  }
 }

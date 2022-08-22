@@ -8,5 +8,5 @@ matchRouter.get('/', MatchController.getAll);
 matchRouter.post('/', validateToken, MatchController.create);
 
 matchRouter.patch('/:id/finish', MatchController.finished);
-
+matchRouter.patch('/:id', MatchController.updateGoals);
 export default matchRouter;

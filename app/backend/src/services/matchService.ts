@@ -1,6 +1,6 @@
 import TeamModel from '../database/models/teamModel';
 import MatchModel from '../database/models/matchModel';
-import { matchWithIdAssociated,
+import { matchGoals, matchWithIdAssociated,
   matchWithIdUnassociated,
   matchWithoutIdUnassociatedBase } from './types/matchInterface';
 import HttpError from '../errors/httpError';
@@ -85,7 +85,22 @@ export default class MatchService {
         },
       },
     );
-    console.log(response);
+
+    return response;
+  }
+
+  static async updateGoals(id: number, gols: matchGoals) {
+    const response = await MatchModel.update(
+      {
+        homeTeamGoals: gols.homeTeamGoals,
+        awayTeamGoals: gols.awayTeamGoals,
+      },
+      {
+        where: {
+          id,
+        },
+      },
+    );
 
     return response;
   }
