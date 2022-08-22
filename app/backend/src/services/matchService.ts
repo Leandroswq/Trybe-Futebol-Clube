@@ -1,6 +1,8 @@
 import TeamModel from '../database/models/teamModel';
 import MatchModel from '../database/models/matchModel';
-import { matchWithIdAssociated } from './types/matchInterface';
+import { matchWithIdAssociated,
+  matchWithIdUnassociated,
+  matchWithoutIdUnassociatedBase } from './types/matchInterface';
 
 export default class MatchService {
   static async getAll() {
@@ -43,5 +45,14 @@ export default class MatchService {
     const matches = JSON.parse(JSON.stringify(response));
 
     return matches as matchWithIdAssociated[];
+  }
+
+  static async create(matchData: matchWithoutIdUnassociatedBase) {
+    const response = await MatchModel.create({
+      ...matchData,
+      inProgress: true,
+    }, { raw: true });
+
+    return response as matchWithIdUnassociated;
   }
 }

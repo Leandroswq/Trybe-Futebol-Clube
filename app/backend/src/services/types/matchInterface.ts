@@ -1,18 +1,25 @@
 import { ITeamName } from './teamInterface';
 
-export interface matchWithoutIdUnassociated {
+export interface matchWithoutIdUnassociatedBase{
   homeTeam: number;
   homeTeamGoals: number;
   awayTeam: number;
   awayTeamGoals: number;
-  inProgress: boolean
 }
 
-export interface matchWithoutIdAssociated {
+export interface matchWithoutIdAssociatedBase{
   homeTeam: ITeamName
   homeTeamGoals: number
   awayTeam: ITeamName
   awayTeamGoals: number
+
+}
+
+export interface matchWithoutIdUnassociated {
+  inProgress: boolean
+}
+
+export interface matchWithoutIdAssociated {
   inProgress: boolean
 }
 
