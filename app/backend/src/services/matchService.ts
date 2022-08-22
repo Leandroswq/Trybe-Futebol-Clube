@@ -23,4 +23,25 @@ export default class MatchService {
 
     return matches as matchWithIdAssociated[];
   }
+
+  static async getByProgress(inProgress: boolean) {
+    const response = await MatchModel.findAll({
+      where: { inProgress },
+      include: [
+        {
+          model: TeamModel,
+          as: 'teamHome',
+          attributes: ['teamName'],
+        },
+        {
+          model: TeamModel,
+          as: 'teamAway',
+          attributes: ['teamName'],
+        },
+      ],
+    });
+    const matches = JSON.parse(JSON.stringify(response));
+
+    return matches as matchWithIdAssociated[];
+  }
 }
