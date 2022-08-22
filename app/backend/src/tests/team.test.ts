@@ -43,3 +43,25 @@ describe('Testa se a rota /login o método', () => {
     })
   })
 })
+
+describe('Testa se a rota /login/:id o método', () => {
+  afterEach(() => {
+    sinon.restore()
+  })
+
+  beforeEach(() => {
+    sinon.stub(TeamModel, 'findByPk')
+    .resolves(teamMocks.team as TeamModel)
+  })
+
+  describe('get, em caso de sucesso', () => {
+    it('retorna o time passado pelo parâmetro id', async () => {
+      const response = await request()
+      .get('/teams/1')
+      
+      expect(response.status).to.equal(200)
+      expect(response.body).to.a('object')
+      expect(response.body).to.deep.equal(teamMocks.team)
+    })
+  })
+})
