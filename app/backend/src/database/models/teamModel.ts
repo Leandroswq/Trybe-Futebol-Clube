@@ -9,7 +9,7 @@ class TeamModel extends Model {
   static associate(models: TModelsObject) {
     TeamModel.hasMany(models.matchModel, {
       foreignKey: 'homeTeam',
-      as: 'teamsHome',
+      as: 'teamHome',
     });
 
     TeamModel.hasMany(models.matchModel, {
