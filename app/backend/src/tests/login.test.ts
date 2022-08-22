@@ -18,6 +18,9 @@ import UserModel from '../database/models/userModel'
 // helpers
 import deepCopy from './helpers/deepCopy'
 
+// services
+import userService from '../services/userService';
+
 chai.use(chaiHttp);
 
 const { expect } = chai;
@@ -106,7 +109,7 @@ describe('Testa se a rota /login o método', () => {
     describe('retorna o status 401 com a mensagem "Incorrect email or password", caso', () => {
       it("o email seja invalido", async () => {
         const message = "Incorrect email or password"
-
+        sinon.stub(userService, 'getByEmail').resolves(undefined)
         const login = {
           email: "email invalido",
           password: "password"
