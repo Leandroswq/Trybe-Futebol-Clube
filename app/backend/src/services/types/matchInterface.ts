@@ -15,11 +15,11 @@ export interface matchWithoutIdAssociatedBase{
 
 }
 
-export interface matchWithoutIdUnassociated {
+export interface matchWithoutIdUnassociated extends matchWithoutIdUnassociatedBase{
   inProgress: boolean
 }
 
-export interface matchWithoutIdAssociated {
+export interface matchWithoutIdAssociated extends matchWithoutIdAssociatedBase {
   inProgress: boolean
 }
 

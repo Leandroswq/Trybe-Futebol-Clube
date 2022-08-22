@@ -20,6 +20,8 @@ export default class MatchController {
   static async create(req: Request, res: Response) {
     const data = req.body;
 
+    await MatchService.validateCreateMatch(data);
+    await MatchService.create(data);
     const match = await MatchService.create(data);
 
     res.status(201).json(match);
