@@ -7,6 +7,6 @@ const matchRouter = express.Router();
 matchRouter.get('/', MatchController.getAll);
 matchRouter.post('/', validateToken, MatchController.create);
 
-matchRouter.put('/:id', MatchController.finished);
+matchRouter.patch('/:id/finish', MatchController.finished);
 
 export default matchRouter;
