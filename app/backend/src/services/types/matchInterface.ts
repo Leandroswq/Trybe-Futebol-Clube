@@ -10,9 +10,9 @@ export interface matchWithoutIdUnassociatedBase extends matchGoals{
   awayTeam: number;
 }
 
-export interface matchWithoutIdAssociatedBase extends matchGoals{
-  homeTeam: ITeamName
-  awayTeam: ITeamName
+export interface matchWithoutIdAssociatedBase extends matchWithoutIdUnassociatedBase{
+  teamHome: ITeamName
+  teamAway: ITeamName
 }
 
 export interface matchWithoutIdUnassociated extends matchWithoutIdUnassociatedBase{
