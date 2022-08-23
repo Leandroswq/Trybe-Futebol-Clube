@@ -21,7 +21,6 @@ export default class MatchController {
     const data = req.body;
 
     await MatchService.validateCreateMatch(data);
-    await MatchService.create(data);
     const match = await MatchService.create(data);
 
     res.status(201).json(match);
