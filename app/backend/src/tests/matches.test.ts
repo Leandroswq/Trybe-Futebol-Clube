@@ -7,6 +7,7 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
+import { Model } from 'sequelize';
 
 // model
 
@@ -116,11 +117,25 @@ describe('Testa se a rota /matches o método', () => {
 
       const response = await request().post('/matches')
         .send(matchesMocks.createMatch)
-        .set({ Authorization: token})
+        .set({ Authorization: token })
 
       expect(response.status).to.equal(404)
       expect(response.body).to.deep.equal({
         message: "There is no team with such id!"
+      })
+    })
+  })
+
+  describe('Testa se a rota /matches/:id/finish o método', () => {
+    describe('patch em caso de sucesso', () => {
+      it('Altera o inProgress de uma partida para false', async () => {
+        sinon.stub(MatchModel, 'update')
+          .resolves([0] as unknown as [number, Model<any, any>[]])
+
+        const response = await request().patch('/matches/5/finish')
+
+        expect(response.status).to.equal(200)
+        expect(response.body).to.deep.equal({message: 'Finished'})
       })
     })
   })
