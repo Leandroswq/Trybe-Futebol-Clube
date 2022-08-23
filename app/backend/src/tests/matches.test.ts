@@ -59,6 +59,10 @@ describe('Testa se a rota /matches o método', () => {
   })
 
   describe('post, em caso de sucesso', () => {
+    afterEach(() => {
+      sinon.restore()
+    })
+
     it('cria uma partida', async () => {
       sinon.stub(MatchModel, 'create')
         .resolves(matchesMocks.match as MatchModel)
@@ -125,18 +129,43 @@ describe('Testa se a rota /matches o método', () => {
       })
     })
   })
+})
 
-  describe('Testa se a rota /matches/:id/finish o método', () => {
-    describe('patch em caso de sucesso', () => {
-      it('Altera o inProgress de uma partida para false', async () => {
-        sinon.stub(MatchModel, 'update')
-          .resolves([0] as unknown as [number, Model<any, any>[]])
+describe('Testa se a rota /matches/:id/finish o método', () => {
+  afterEach(() => {
+    sinon.restore()
+  })
+  describe('patch em caso de sucesso', () => {
+    it('Altera o inProgress de uma partida para false', async () => {
+      sinon.stub(MatchModel, 'update')
+        .resolves([0] as unknown as [number, Model<any, any>[]])
 
-        const response = await request().patch('/matches/5/finish')
+      const response = await request().patch('/matches/5/finish')
 
-        expect(response.status).to.equal(200)
-        expect(response.body).to.deep.equal({message: 'Finished'})
+      expect(response.status).to.equal(200)
+      expect(response.body).to.deep.equal({ message: 'Finished' })
+    })
+  })
+})
+
+describe('Testa se a rota /matches/:id o método', () => {
+  afterEach(() => {
+    sinon.restore()
+  })
+
+  describe('patch em caso de sucesso', () => {
+    it('Atualiza o placar', async () => {
+      sinon.stub(MatchModel, 'update')
+        .resolves([0] as unknown as [number, Model<any, any>[]])
+
+      const response = await request().patch('/matches/5')
+      .send({
+        homeTeamGoals: 10,
+        awayTeamGoals: 10
       })
+      
+      expect(response.status).to.equal(200)
+      expect(response.body).to.deep.equal({ message: 'Updated Goals' })
     })
   })
 })
