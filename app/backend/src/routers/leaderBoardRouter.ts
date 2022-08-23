@@ -3,6 +3,7 @@ import LeaderBoardController from '../controllers/leaderBoardController';
 
 const leaderBoardRouter = express.Router();
 
+leaderBoardRouter.get('/', LeaderBoardController.getScoreBoard);
 leaderBoardRouter.get('/home', LeaderBoardController.getScoreBoardHome);
 leaderBoardRouter.get('/away', LeaderBoardController.getScoreBoardAway);
 

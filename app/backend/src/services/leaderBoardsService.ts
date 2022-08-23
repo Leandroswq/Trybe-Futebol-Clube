@@ -211,4 +211,13 @@ export default class LeaderBoardService {
 
     return scoreboardSorted;
   }
+
+  static async getScoreBoard() {
+    const matches = await MatchService.getByProgress(false);
+    const scoreboard = await this.createScoreBoard(matches);
+
+    const scoreboardSorted = this.sortScoreBoard(scoreboard);
+
+    return scoreboardSorted;
+  }
 }
