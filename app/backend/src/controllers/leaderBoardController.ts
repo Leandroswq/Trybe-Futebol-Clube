@@ -7,4 +7,10 @@ export default class LeaderBoardController {
 
     res.status(200).json(response);
   }
+
+  static async getScoreBoardAway(req: Request, res: Response) {
+    const response = await LeaderBoardService.getScoreBoardAway();
+
+    res.status(200).json(response);
+  }
 }

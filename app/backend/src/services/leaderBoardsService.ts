@@ -141,6 +141,27 @@ export default class LeaderBoardService {
     return Object.values(scoreboard);
   }
 
+  static async createScoreBoardAway(matches: matchWithIdAssociated[]) {
+    const home = this.createEmptyScore('home');
+
+    const scoreboard = matches.reduce((
+      prev: { [key: string]: IScoreboard },
+      curr,
+    ) => {
+      const prevAux = prev;
+      const [awayId, awayName] = [curr.awayTeam, curr.teamAway.teamName];
+
+      let away = prevAux[awayId] ? prevAux[awayId] : this.createEmptyScore(awayName);
+
+      [, away] = this.updateScore(home, away, curr);
+      prevAux[awayId] = away;
+
+      return prevAux;
+    }, {});
+
+    return Object.values(scoreboard);
+  }
+
   static async createScoreBoardHome(matches: matchWithIdAssociated[]) {
     const away = this.createEmptyScore('away');
 
@@ -162,16 +183,32 @@ export default class LeaderBoardService {
     return Object.values(scoreboard);
   }
 
-  static async getScoreBoardHome() {
-    const matches = await MatchService.getByProgress(false);
-    const scoreboard = await this.createScoreBoardHome(matches);
-
-    scoreboard.sort((b, a) => a.totalPoints - b.totalPoints
+  static sortScoreBoard(scoreboard: IScoreboard[]) {
+    const aux = JSON.parse(JSON.stringify(scoreboard)) as IScoreboard[];
+    aux.sort((b, a) => a.totalPoints - b.totalPoints
     || a.totalVictories - b.totalVictories
     || a.goalsBalance - b.goalsBalance
     || a.goalsFavor - b.goalsFavor
     || a.goalsOwn - b.goalsOwn);
 
-    return scoreboard;
+    return aux;
+  }
+
+  static async getScoreBoardHome() {
+    const matches = await MatchService.getByProgress(false);
+    const scoreboard = await this.createScoreBoardHome(matches);
+
+    const scoreboardSorted = this.sortScoreBoard(scoreboard);
+
+    return scoreboardSorted;
+  }
+
+  static async getScoreBoardAway() {
+    const matches = await MatchService.getByProgress(false);
+    const scoreboard = await this.createScoreBoardAway(matches);
+
+    const scoreboardSorted = this.sortScoreBoard(scoreboard);
+
+    return scoreboardSorted;
   }
 }
