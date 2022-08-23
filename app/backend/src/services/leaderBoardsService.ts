@@ -162,7 +162,7 @@ export default class LeaderBoardService {
     return Object.values(scoreboard);
   }
 
-  static async teste() {
+  static async getScoreBoardHome() {
     const matches = await MatchService.getByProgress(false);
     const scoreboard = await this.createScoreBoardHome(matches);
 
