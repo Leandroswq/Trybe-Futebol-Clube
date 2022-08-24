@@ -1,13 +1,13 @@
-import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import HttpError from '../errors/httpError';
 
 export default function errorMiddleware(
-  err: ErrorRequestHandler,
+  err: Error,
   _req: Request,
   res: Response,
   _next: NextFunction,
 ) {
-  const { httpStatus, message } = err as unknown as HttpError;
+  const { httpStatus, message } = err as HttpError;
   if (httpStatus) {
     res.status(httpStatus).json({ message });
   } else {
