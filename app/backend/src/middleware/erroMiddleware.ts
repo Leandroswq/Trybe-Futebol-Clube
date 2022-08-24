@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import httpStatusList from '../helpers/httpStatus';
 import HttpError from '../errors/httpError';
 
 export default function errorMiddleware(
@@ -8,7 +9,7 @@ export default function errorMiddleware(
   _next: NextFunction,
 ) {
   const { httpStatus, message } = err as HttpError;
-  if (httpStatus) {
+  if (httpStatusList.some((status) => status === httpStatus)) {
     res.status(httpStatus).json({ message });
   } else {
     res.status(500).json({ message: 'Erro interno do servidor' });
