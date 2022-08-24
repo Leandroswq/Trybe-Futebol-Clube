@@ -57,3 +57,19 @@ describe('Testa se a rota /leaderboard/home o método', () => {
     })
   })
 })
+
+describe('Testa se a rota /leaderboard/away o método', () => {
+  afterEach(() => {
+    sinon.restore()
+  })
+  describe('get, em caso de sucesso', () => {
+    it('retorna o status 200 com as informações do placar em casa',async () => {
+      sinon.stub(MatchService, 'getByProgress').resolves(leaderBoardMocks.matches)
+
+      const response = await request().get('/leaderboard/away')
+
+      expect(response.status).to.equal(200)
+      expect(response.body).to.deep.equal(leaderBoardMocks.leaderBoardAway)
+    })
+  })
+})
