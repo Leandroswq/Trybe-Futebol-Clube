@@ -12,6 +12,7 @@ import { Model } from 'sequelize';
 // model
 
 import MatchModel from '../database/models/matchModel';
+import TeamModel from '../database/models/teamModel';
 
 import matchesMocks from './mocks/matchesMocks'
 
@@ -59,13 +60,13 @@ describe('Testa se a rota /matches o método', () => {
   })
 
   describe('post, em caso de sucesso', () => {
-    afterEach(() => {
-      sinon.restore()
-    })
 
     it('cria uma partida', async () => {
       sinon.stub(MatchModel, 'create')
         .resolves(matchesMocks.match as MatchModel)
+
+      sinon.stub(TeamModel, 'findByPk')
+        .resolves('Team' as unknown as TeamModel)
 
       const response = await request().post('/matches')
         .send(matchesMocks.createMatch)
@@ -84,6 +85,9 @@ describe('Testa se a rota /matches o método', () => {
       sinon.stub(MatchModel, 'create')
         .resolves(matchesMocks.match as MatchModel)
 
+      sinon.stub(TeamModel, 'findByPk')
+        .resolves('Team' as unknown as TeamModel)
+
       const response = await request().post('/matches')
         .send(matchesMocks.createMatchWithSameTeams)
         .set({ Authorization: token })
@@ -101,6 +105,9 @@ describe('Testa se a rota /matches o método', () => {
       sinon.stub(MatchModel, 'create')
         .resolves(matchesMocks.match as MatchModel)
 
+      sinon.stub(TeamModel, 'findByPk')
+        .resolves('Team' as unknown as TeamModel)
+        
       const response = await request().post('/matches')
         .send(matchesMocks.createMatchWithSameTeams)
         .set({ Authorization: 'ddd' })
@@ -159,11 +166,11 @@ describe('Testa se a rota /matches/:id o método', () => {
         .resolves([0] as unknown as [number, Model<any, any>[]])
 
       const response = await request().patch('/matches/5')
-      .send({
-        homeTeamGoals: 10,
-        awayTeamGoals: 10
-      })
-      
+        .send({
+          homeTeamGoals: 10,
+          awayTeamGoals: 10
+        })
+
       expect(response.status).to.equal(200)
       expect(response.body).to.deep.equal({ message: 'Updated Goals' })
     })
