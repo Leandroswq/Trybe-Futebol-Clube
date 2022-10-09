@@ -22,7 +22,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 const request = () => chai.request(app)
 
-describe('Testa se a rota /login o método', () => {
+describe('Testa se a rota /team o método', () => {
   afterEach(() => {
     sinon.restore()
   })
@@ -44,7 +44,7 @@ describe('Testa se a rota /login o método', () => {
   })
 })
 
-describe('Testa se a rota /login/:id o método', () => {
+describe('Testa se a rota /team/:id o método', () => {
   afterEach(() => {
     sinon.restore()
   })
