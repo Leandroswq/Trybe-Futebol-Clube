@@ -14,9 +14,6 @@ import TeamModel from '../database/models/teamModel';
 // mocks
 import teamMocks from './mocks/teamMocks';
 
-// helpers
-import deepCopy from './helpers/deepCopy'
-
 chai.use(chaiHttp);
 
 const { expect } = chai;

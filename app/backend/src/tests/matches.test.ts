@@ -17,7 +17,6 @@ import TeamModel from '../database/models/teamModel';
 import matchesMocks from './mocks/matchesMocks'
 
 // helpers
-import deepCopy from './helpers/deepCopy'
 import Token from '../helpers/token'
 import TeamService from '../services/teamService';
 
